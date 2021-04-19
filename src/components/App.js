@@ -3,8 +3,27 @@ import {database} from "firebase";
 import Header from "./Header";
 import Order from "./Order";
 import Inventory from "./Inventory";
+import sampleFishes from "./sample-fish";
 
 class App extends React.Component{
+    state = {
+        fishes: {},
+        order: {}
+    };
+    addFish = fish => {
+        //This makes a copy of whats in state.
+        const fishes = {...this.state.fishes};
+        //adds timestamp to fish as an id and adds the new fish to the fishes variable.
+        fishes[`fish${Date.now()}`] = fish;
+
+        this.setState({
+            fishes: fishes
+        });
+
+    };
+    loadSampleFishes = () => {
+        this.setState({fishes: sampleFishes});
+    };
     render() {
         return(
             <div className="catch-of-the-day">
@@ -12,7 +31,10 @@ class App extends React.Component{
                     <Header tagline="Fresh Seafood Market" />
                 </div>
                 <Order />
-                <Inventory />
+                <Inventory
+                    addFish={this.addFish}
+                    loadSampleFishes={this.loadSampleFishes}
+                />
             </div>
         )
     }
