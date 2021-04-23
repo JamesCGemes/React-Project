@@ -64,6 +64,10 @@ class App extends React.Component{
         this.setState({order})
     }
 
+    updateFish = (key, updatedFish) =>{
+
+    }
+
     render() {
         return(
             <div className="catch-of-the-day">
@@ -84,6 +88,7 @@ class App extends React.Component{
                 <Inventory
                     addFish={this.addFish}
                     loadSampleFishes={this.loadSampleFishes}
+                    fishes={this.state.fishes}
                 />
             </div>
         )
