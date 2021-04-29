@@ -32,7 +32,6 @@ class App extends React.Component{
     componentDidUpdate() {
         console.log(this.state.order);
         localStorage.setItem(this.props.match.params.storeID, JSON.stringify(this.state.order));
-        console.log("It updated");
     }
 
     componentWillUnmount() {
@@ -49,8 +48,17 @@ class App extends React.Component{
         this.setState({
             fishes: fishes
         });
-
     };
+
+    deleteFish = (key) => {
+        //Take a copy of state
+        const fishes = {...this.state.fishes};
+        //Update the state
+        fishes[key] = null;
+        //update state
+        this.setState({fishes});
+    };
+
     loadSampleFishes = () => {
         this.setState({fishes: sampleFishes});
     };
@@ -60,6 +68,15 @@ class App extends React.Component{
         const order = {...this.state.order};
         // Either add to the order or update the number in the order
         order[key] = order[key] + 1 || 1;
+        // Call setstate to update our state object
+        this.setState({order})
+    }
+
+    removeFromOrder = (key) => {
+        // Take a copy of the state
+        const order = {...this.state.order};
+        // remove item form order
+        delete order[key];
         // Call setstate to update our state object
         this.setState({order})
     }
@@ -84,9 +101,14 @@ class App extends React.Component{
                         ))}
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order} />
+                <Order
+                    fishes={this.state.fishes}
+                    order={this.state.order}
+                    removeFromOrder={this.removeFromOrder()}
+                />
                 <Inventory
                     addFish={this.addFish}
+                    deleteFish={this.deleteFish}
                     loadSampleFishes={this.loadSampleFishes}
                     fishes={this.state.fishes}
                 />
