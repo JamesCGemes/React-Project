@@ -1,5 +1,6 @@
 import React from "react";
 import {formatPrice} from "../helpers";
+import PropTypes from "prop-types";
 
 class Fish extends React.Component {
 
@@ -9,9 +10,9 @@ class Fish extends React.Component {
         return (
             <li className="menu-fish">
             <img src={image} alt={name}/>
-             <h3 className="fish-name">
+             <h3 className="fish-name ">
                  {name}
-                <span className="price">{formatPrice(price)}</span>
+                <span className="price ">{formatPrice(price)}</span>
              </h3>
                 <p>{desc}</p>
                 <button
