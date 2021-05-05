@@ -1,20 +1,20 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import Header from "./Header";
 import Order from "./Order";
 import Inventory from "./Inventory";
 import sampleFishes from "./sample-fish";
 import Fish from "./Fish";
 import base from "../base";
-import PropTypes from 'prop-types';
 
 class App extends React.Component{
-    static propTypes = {
-        match: PropTypes.object
-    }
     state = {
         fishes: {},
         order: {}
     };
+    static propTypes = {
+        match: PropTypes.object
+    }
 
 
     componentDidMount() {
@@ -25,7 +25,7 @@ class App extends React.Component{
             this.setState({ order: JSON.parse(localStorageRef) });
         }
 
-        this.ref = base.syncState(`${params.storeId}/fishes`, {
+        this.ref = base.syncState(`${params.storeID}/fishes`, {
             context: this,
             state: "fishes"
         });
@@ -33,7 +33,6 @@ class App extends React.Component{
 
 
     componentDidUpdate() {
-        console.log(this.state.order);
         localStorage.setItem(this.props.match.params.storeID, JSON.stringify(this.state.order));
     }
 
@@ -48,16 +47,14 @@ class App extends React.Component{
         //adds timestamp to fish as an id and adds the new fish to the fishes variable.
         fishes[`fish${Date.now()}`] = fish;
 
-        this.setState({
-            fishes: fishes
-        });
+        this.setState({fishes});
     };
 
     updateFish = (key, updatedFish) =>{
         const fishes = {...this.state.fishes};
         fishes[key] = updatedFish;
         this.setState({fishes});
-    }
+    };
     deleteFish = (key) => {
         //Take a copy of state
         const fishes = {...this.state.fishes};
@@ -117,6 +114,7 @@ class App extends React.Component{
                     deleteFish={this.deleteFish}
                     loadSampleFishes={this.loadSampleFishes}
                     fishes={this.state.fishes}
+                    storeID={this.props.match.params.storeID}
                 />
             </div>
         )
@@ -124,4 +122,5 @@ class App extends React.Component{
 }
 
 export default App
+
 
